@@ -1,11 +1,11 @@
 body{
-    background-color: rgb(131, 127, 127);
+    background-color: rgba(236, 44, 44, 0.678);
 }
 
 div.gas{
     font-size: 50px;
     position:fixed;
-    top: 10%;
+    top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;

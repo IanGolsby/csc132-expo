@@ -43,22 +43,26 @@ def create_app(test_config=None):
     # home page that shows what is detected
     @app.route('/')
     def server():
+        """
         if values.value == False:
             return render_template('hello1.html', name=names())
         elif values.value == True:
             return render_template('hello1.html', name=names()) # originially to be html1
+        """
+        return render_template("hello1.html")
 
     # a page that has a button that manipulates the boolean values.value
     # in order to switch /server background color
     @app.route('/pi', methods=['GET', 'POST'])
     def pi():
+        """
         if request.method == 'POST':
             if request.form['submit_button'] == 'Click Me' and values.value == False:
                 values.value = True
 
             elif request.form['submit_button'] == 'Click Me' and values.value == True:
                 values.value = False
-
+        """
         return render_template("piSide.html", name=values.value)
 
     return app
