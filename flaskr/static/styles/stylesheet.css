@@ -1,0 +1,21 @@
+body{
+    background-color: rgba(126, 12, 12, 0.678);
+}
+
+div.gas{
+    font-size: 50px;
+    position:fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+div.gasName{
+    width: 500px;
+    font-size: 30px;
+    position: fixed;
+    left: 50%;
+    border: 3px solid #73AD21;
+    top: 50%;
+    transform: translate(-50%,  -50%);
+}
