@@ -6,12 +6,11 @@ import socketClient
 """ GLOBAL VARIABLES """
 # When enabled, it will never do anything to do with actual sensors and only deal with button
 button_only = True
-pin_mq4_heater = 1
 pin_mq4_alarm = 2
 pin_mq7_heater = 3
 pin_mq7_alarm = 4
 pin_button = 13
-pin_buzzer = 12
+pin_buzzer = 22
 mq7_mode = ""
 state = "Nothing"
 last_state = ""
@@ -20,10 +19,6 @@ last_state = ""
 def main_loop():
     # Track when we started the loop
     loop_start_time = time.time()
-
-    # Activate MQ4 heater
-    if not button_only:
-        GPIO.output(pin_mq4_heater, 1)
 
     # MQ7 is in purge phase for one minute
     mq7_mode = "PURGE"
@@ -94,15 +89,16 @@ def read_sensors():
         # Update the text file
         with open("detected.txt", "w+") as detected:
             detected.write(state)
+            print("State changed to {}".format(state))
         try:
             # Sends data, via socket, to hq server
             socketClient.sendData(state)
         except:
-            pass
+            print("Socket error")
     
     # Activate the buzzer
     if state != "Nothing":
-        play_sound(pin_buzzer, 220, 5)
+        play_sound(pin_buzzer, 220, 3)
 
 def play_sound(pin, freq, duration):
     start_time = time.time()
@@ -111,73 +107,6 @@ def play_sound(pin, freq, duration):
         time.sleep(0.5 / freq)
         GPIO.output(pin, 0)
         time.sleep(0.5 / freq)
-
-
-
-""" CURRENTLY DEPRECATED FUNCTIONS """
-
-def deprecated_mq7_purge():
-    """ Purges sensor by activating heater at full power for one minute """
-    # Activate heater (active low) for one minute
-    if not button_only:
-        GPIO.output(pin_mq4_heater, 0)
-    for i in range(60):
-        time.sleep(1)
-        if not button_only:
-            mq4_sense()
-        button_sense()
-    # Deactivate heater
-    if not button_only:
-        GPIO.output(pin_mq4_heater, 1)
-
-def deprecated_mq7_sense():
-    """ Runs heater at ~1.4V for 90 sec to sense, calibrate, or check sensor """
-    # Tracks how long we've been sensing
-    start_time = time.time()
-    while(1):
-        # 7ms on, 18ms off -- makes 1.4V
-        # Cycle heater
-        if not button_only:
-            GPIO.output(pin_mq4_heater, 0)
-        time.sleep(0.007)
-        if not button_only:
-            GPIO.output(pin_mq4_heater, 1)
-        time.sleep(0.018)
-
-        # Sense while we're in sense phase
-        if not button_only:
-            mq7_alarm = GPIO.input(pin_mq7_alarm)
-        else:
-            mq7_alarm = 0
-        if mq7_alarm:
-            print("MQ7 DETECTED CO LEVELS OVER THRESHOLD")
-            detected.write("CO")
-        if not button_only:
-            mq4_sense()
-        button_sense()
-
-        # Check elapsed time
-        if time.time() - start_time >= 90:
-            # We hit 90 seconds, so exit loop
-            break
-
-def deprecated_mq7_sense():
-    alarm = GPIO.input(pin_mq7_alarm)
-    if alarm:
-        print("MQ7 DETECTED CO LEVELS ABOVE THRESHOLD")
-        detected.write("Flammable Gas")
-
-def deprecated_mq4_sense():
-    alarm = GPIO.input(pin_mq4_alarm)
-    if alarm:
-        print("MQ4 DETECTED FLAMMABLE GAS LEVELS ABOVE THRESHOLD")
-        detected.write("Flammable Gas")
-
-def deprecated_button_sense():
-    alarm = GPIO.input(pin_button)
-    if alarm:
-        print("BUTTON PRESSED")
-        detected.write("Button")
 
 
 
