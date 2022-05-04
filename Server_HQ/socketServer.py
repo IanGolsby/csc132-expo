@@ -8,6 +8,7 @@ PORT = 65432 # Port to listen on (non-privliged ports are > 1023)
 
 # boilerplate socket code
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.setsockopt(socket.SQL_SOCKET, socket.SO_REUSEADDR, 1)
     s.bind((HOST, PORT))
     s.listen()
     conn, addr = s.accept()
