@@ -10,7 +10,6 @@ pin_mq7_heater = 3
 pin_mq7_alarm = 4
 pin_button = 13
 pin_buzzer = 12
-detected = open("detected.txt", "w+")
 mq7_mode = ""
 state = "Nothing"
 last_state = ""
@@ -56,8 +55,11 @@ def read_sensors():
     global state
 
     btn_alarm = GPIO.input(pin_button)
-    mq4_alarm = GPIO.input(pin_mq4_alarm)
-    mq7_alarm = 0 if mq7_mode == "PURGE" else GPIO.input(pin_mq7_alarm)
+    if not button_only:
+        mq4_alarm = GPIO.input(pin_mq4_alarm)
+        mq7_alarm = 0 if mq7_mode == "PURGE" else GPIO.input(pin_mq7_alarm)
+    else:
+        mq4_alarm, mq7_alarm = 0, 0
 
     # Hold previous state information
     last_state = state
@@ -177,6 +179,7 @@ def deprecated_button_sense():
 GPIO.setmode(GPIO.BCM)
 
 GPIO.setup(pin_button, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(pin_buzzer, GPIO.OUT)
 
 if not button_only:
     GPIO.setup(pin_mq4_heater, GPIO.OUT)
