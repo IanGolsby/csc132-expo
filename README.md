@@ -1,4 +1,5 @@
 # Gas Sensor Array
+### Sensory Module for Enhancement of Life and Livelihood (SMELL)
 
 ## Description: CSC132 Project -- wearable sensor array for detecting hazardous gasses
 
