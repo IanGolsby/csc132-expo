@@ -8,6 +8,7 @@
 - Ian Golsby
 - Lael Hamilton
 
+Requirements: Flask
 
 #### How to start on Pi
 1.) From the project directory run the "runMain.py" file
