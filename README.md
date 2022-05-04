@@ -27,7 +27,7 @@ Server_HQ contains the files for a local flask server, a socket server, and the 
   -runMain.py starts the local flask server and, in a different thread, runs the sensor_testing.py file
   -Everything should automatically start
   
-### How to Start on HQ server
+#### How to Start on HQ server
 1.) From the Server_HQ directory, run the "runMain.py" file
   -runMain.py starts the local flask server and, in a different thread, runs the startSocket.py file
   -Everything should automatically start
