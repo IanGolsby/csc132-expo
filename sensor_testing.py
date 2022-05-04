@@ -12,7 +12,7 @@ pin_button = 13
 pin_buzzer = 12
 detected = open("detected.txt", "w+")
 mq7_mode = ""
-state = "None"
+state = "Nothing"
 last_state = ""
 
 """ USER FUNCTIONS """
@@ -78,10 +78,10 @@ def read_sensors():
         state_flag = 1
 
     if not state_flag:
-        state = "None"
+        state = "Nothing"
 
-    # If the state isn't None,
-    if state != "None":
+    # If the state isn't Nothing,
+    if state != "Nothing":
         # Remove the comma at the end
         state = state[:-1]
     
@@ -92,7 +92,7 @@ def read_sensors():
             detected.write(state)
     
     # Activate the buzzer
-    if state != "None":
+    if state != "Nothing":
         play_sound(pin_buzzer, 220, 5)
 
 def play_sound(pin, freq, duration):
