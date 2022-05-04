@@ -7,11 +7,11 @@ import time
 """ GLOBAL VARIABLES """
 # When enabled, it will never do anything to do with actual sensors and only deal with button
 button_only = True
-pin_mq4_alarm = 2
+pin_mq4_alarm = 25
 pin_mq7_heater = 3
 pin_mq7_alarm = 4
 pin_button = 13
-pin_buzzer = 12
+pin_buzzer = 22
 mq7_mode = ""
 state = "Nothing"
 last_state = ""
