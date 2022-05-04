@@ -1,30 +1,24 @@
 import os
-import values, random
-#import sensor_testing as sTest # might need to be moved outside of folder, similar to values module
-from flask import Flask, render_template, request
+from flask import Flask, render_template
 
-
-def buttonPress(val):
-    return not val
 
 def names():
-    """
-    lists = ["helium", "fart", "mustard", "cs2", "c2o", "co"]
-    name = random.choice(lists)
-    """
-    #name = sTest.detected # gets name of what is detected\
+    """Returns string located in detected.txt"""
+
     with open('detected.txt') as f:
         name = f.read()
     return name    
 
+
 def create_app(test_config=None):
-    # create and configure the app
+    """create and configure the app"""
+
     app = Flask(__name__, instance_relative_config=True)
+    app.config["TEMPLATES_AUTO_RELOAD"] = True
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
-
     app.static_folder = 'static'
 
     if test_config is None:
@@ -40,29 +34,23 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # home page that shows what is detected
+
     @app.route('/')
     def server():
-        """
-        if values.value == False:
-            return render_template('hello1.html', name=names())
-        elif values.value == True:
-            return render_template('hello1.html', name=names()) # originially to be html1
-        """
+        """home page that shows what is detected"""
+
         return render_template("hello1.html")
 
-    # a page that has a button that manipulates the boolean values.value
-    # in order to switch /server background color
+
     @app.route('/pi', methods=['GET', 'POST'])
     def pi():
-        """
-        if request.method == 'POST':
-            if request.form['submit_button'] == 'Click Me' and values.value == False:
-                values.value = True
+        """/pi page"""
 
-            elif request.form['submit_button'] == 'Click Me' and values.value == True:
-                values.value = False
-        """
-        return render_template("piSide.html", name=values.value)
+        return render_template("piSide.html", name=names())
+
+    @app.route('/iframe')
+    def iframes():
+        """Page for iframe that is located in /pi"""
+        return render_template("iframe.html", name=names())
 
     return app

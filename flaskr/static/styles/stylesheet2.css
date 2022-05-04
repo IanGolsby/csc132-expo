@@ -17,8 +17,8 @@ div.gasName{
     position: fixed;
     width: 500px;
     left: 50%;
-    border: 3px solid #ffffff;
-    top: 48%;
+    /*border: 3px solid #ffffff;*/
+    top: 50%;
     transform: translate(-50%,  -50%);
     text-align: center;
     
