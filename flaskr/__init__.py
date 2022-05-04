@@ -35,23 +35,25 @@ def create_app(test_config=None):
         pass
 
 
-    @app.route('/')
-    def server():
-        """home page that shows what is detected"""
-
-        return render_template("hello1.html")
-
-
-    @app.route('/pi', methods=['GET', 'POST'])
+    @app.route('/', methods=['GET', 'POST'])
     def pi():
-        """/pi page"""
+        """home page for RPi page"""
 
         return render_template("piSide.html", name=names())
 
     @app.route('/iframe')
     def iframes():
         """Page for iframe that is located in /pi"""
-        
         return render_template("iframe.html", name=names())
 
     return app
+
+    # deprecated
+    """
+    @app.route('/')
+    def server():
+        '''home page that shows what is detected'''
+
+        return render_template("hello1.html")
+    """
+    
