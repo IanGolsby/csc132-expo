@@ -93,7 +93,7 @@ def read_sensors():
     
     # Activate the buzzer
     if state != "Nothing":
-        play_sound(pin_buzzer, 220, 5)
+        play_sound(pin_buzzer, 220, 3)
 
 def play_sound(pin, freq, duration):
     start_time = time.time()
