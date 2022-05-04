@@ -68,13 +68,13 @@ def read_sensors():
     # Append information for each alarm
     state = ""
     if btn_alarm:
-        state += "Button Pressed,"
+        state += "Button Pressed, "
         state_flag = 1
     if mq4_alarm:
-        state += "Flammable Gas,"
+        state += "Flammable Gas, "
         state_flag = 1
     if mq7_alarm:
-        state += "Carbon Monoxide,"
+        state += "Carbon Monoxide, "
         state_flag = 1
 
     if not state_flag:
@@ -83,7 +83,7 @@ def read_sensors():
     # If the state isn't Nothing,
     if state != "Nothing":
         # Remove the comma at the end
-        state = state[:-1]
+        state = state[:-2]
     
     # If the state has changed
     if state != last_state:
