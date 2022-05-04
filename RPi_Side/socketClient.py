@@ -1,7 +1,7 @@
 import socket
 
 HOST = "192.168.0.158" # the server's hostname or IP address
-PORT = 1024
+PORT = 65432
 
 def sendData(data):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
