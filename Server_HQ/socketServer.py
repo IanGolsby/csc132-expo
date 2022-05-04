@@ -4,7 +4,7 @@ from time import sleep
 f = open("detected.txt", "w+")
 
 HOST = "192.168.0.158" # Standard loopback interface address (localhost)
-PORT = 1024 # Port to listen on (non-privliged ports are > 1023)
+PORT = 65432 # Port to listen on (non-privliged ports are > 1023)
 
 # boilerplate socket code
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
