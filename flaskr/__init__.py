@@ -51,6 +51,7 @@ def create_app(test_config=None):
     @app.route('/iframe')
     def iframes():
         """Page for iframe that is located in /pi"""
+        
         return render_template("iframe.html", name=names())
 
     return app
