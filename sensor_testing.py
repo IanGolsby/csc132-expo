@@ -7,7 +7,6 @@ import time
 """ GLOBAL VARIABLES """
 # When enabled, it will never do anything to do with actual sensors and only deal with button
 button_only = True
-#pin_mq4_heater = 1
 pin_mq4_alarm = 2
 pin_mq7_heater = 3
 pin_mq7_alarm = 4
@@ -21,10 +20,6 @@ last_state = ""
 def main_loop():
     # Track when we started the loop
     loop_start_time = time.time()
-
-    # Activate MQ4 heater
-    #if not button_only:
-        #GPIO.output(pin_mq4_heater, 1)
 
     # MQ7 is in purge phase for one minute
     mq7_mode = "PURGE"
@@ -118,7 +113,6 @@ GPIO.setup(pin_button, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(pin_buzzer, GPIO.OUT)
 
 if not button_only:
-    #GPIO.setup(pin_mq4_heater, GPIO.OUT)
     GPIO.setup(pin_mq4_alarm, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(pin_mq7_heater, GPIO.OUT)
     GPIO.setup(pin_mq7_alarm, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
