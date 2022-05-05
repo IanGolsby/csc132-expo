@@ -12,7 +12,6 @@ pin_mq7_alarm = 4
 pin_button = 13
 pin_buzzer = 22
 mq7_mode = ""
-state = "Nothing"
 last_state = ""
 
 """ USER FUNCTIONS """
@@ -49,7 +48,11 @@ def main_loop():
         read_sensors()
 
 def read_sensors():
-    global state
+    last_state = ""
+    
+    with open("detected.txt", "r") as detected:
+        # Hold previous state
+        last_state = detected.read()
 
     btn_alarm = GPIO.input(pin_button)
     if not button_only:
@@ -57,9 +60,6 @@ def read_sensors():
         mq7_alarm = 0 if mq7_mode == "PURGE" else GPIO.input(pin_mq7_alarm)
     else:
         mq4_alarm, mq7_alarm = 0, 0
-
-    # Hold previous state information
-    last_state = state
     
     # Tells if we've written to the state this round
     state_flag = 0
@@ -89,20 +89,23 @@ def read_sensors():
         # Update the text file
         with open("detected.txt", "w+") as detected:
             detected.write(state)
-            print("State changed to {}".format(state))
-        try:
-            # Sends data, via socket, to hq server
-            socketClient.sendData(state)
-        except:
-            print("Socket error")
+            
+        print("State changed to {}".format(state))
+        # Sends data, via socket, to hq server
+        socketClient.sendData(state.encode())
     
     # Activate the buzzer
     if state != "Nothing":
-        play_sound(pin_buzzer, 220, 3)
+        for i in range(3):
+            for j in range(3):
+                play_sound(pin_buzzer, 220, 0.15)
+                time.sleep(0.1)
+            time.sleep(0.25)
+        print("Executed play_sound()")
 
 def play_sound(pin, freq, duration):
     start_time = time.time()
-    while time.time() - start_time < duration:
+    while (time.time() - start_time) < duration:
         GPIO.output(pin, 1)
         time.sleep(0.5 / freq)
         GPIO.output(pin, 0)
@@ -118,7 +121,6 @@ GPIO.setup(pin_button, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(pin_buzzer, GPIO.OUT)
 
 if not button_only:
-    GPIO.setup(pin_mq4_heater, GPIO.OUT)
     GPIO.setup(pin_mq4_alarm, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
     GPIO.setup(pin_mq7_heater, GPIO.OUT)
     GPIO.setup(pin_mq7_alarm, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
@@ -130,3 +132,7 @@ try:
 # Halt execution when interrupt is pressed
 except KeyboardInterrupt:
     GPIO.cleanup()
+    print("\n\nCleaned up GPIO from Keyboard Interrupt\n")
+    with open("detected.txt", "w+") as f:
+        f.write("Halted")
+    quit()

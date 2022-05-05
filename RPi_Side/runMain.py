@@ -6,6 +6,8 @@ def threadProcess():
 
 x = threading.Thread(target=threadProcess, daemon=True)
 x.start()
-subprocess.run("python3 startServer.py", shell=True)
 
-
+try:
+    subprocess.run("python3 startServer.py", shell=True)
+except KeyboardInterrupt:
+    print("Exited runMain.py from Interrupt")
