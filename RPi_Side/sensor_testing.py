@@ -5,8 +5,8 @@ import socketClient
 
 """ GLOBAL VARIABLES """
 # When enabled, it will never do anything to do with actual sensors and only deal with button
-button_only = True
-pin_mq4_alarm = 2
+button_only = False
+pin_mq4_alarm = 5
 pin_mq7_heater = 3
 pin_mq7_alarm = 4
 pin_button = 13
