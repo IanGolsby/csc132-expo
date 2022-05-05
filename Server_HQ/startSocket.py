@@ -1,5 +1,8 @@
 from time import sleep
 import subprocess
 
-sleep(2)
-subprocess.run("python3 socketServer.py", shell=True)
+try:
+    sleep(2)
+    subprocess.run("python3 socketServer.py", shell=True)
+except:
+    print("startSocket.py interrupted by keyboard")
