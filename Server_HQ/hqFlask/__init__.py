@@ -6,7 +6,8 @@ def names():
     
     with open('detected.txt') as f:
         name = f.read()
-    return name    
+    
+    return name if name != "" else "EMPTY DATA RECEIVED"
     
 
 def create_app(test_config=None):
