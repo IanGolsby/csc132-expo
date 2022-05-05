@@ -13,11 +13,14 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     conn, addr = s.accept()
     with conn: 
         print(f"Connected by {addr}")
-        while True:
-            data = conn.recv(1024) # receives data from client
-            conn.sendall(data)
-            if data.decode().strip() != "":
-                print(data.decode())
-            with open("detected.txt", "w+") as f: 
-                f.write(data.decode()) # write data to file
-
+        try:
+            while True:
+                data = conn.recv(PORT) # receives data from client
+                conn.sendall(data)
+                if data.decode().strip() != "":
+                    print(data.decode())
+                    with open("detected.txt", "w+") as f: 
+                        f.write(data.decode()) # write data to file
+        except KeyboardInterrupt:
+            print("socketServer.py interrupted by keyboard")
+            s.close()
