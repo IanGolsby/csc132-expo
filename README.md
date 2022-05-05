@@ -10,7 +10,8 @@
 - Ian Golsby
 - Lael Hamilton
 
-Requirements: Flask, Raspberry Pi, Various Sensors, and some other computer
+Requirements: Flask, Raspberry Pi, Various Sensors, HQ Server, and Network
+
 
 The codebase is seperated into two main directories:
   RPi_Side and Server_HQ
